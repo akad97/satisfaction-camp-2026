@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulaire de Satisfaction — Camp STEM &amp; Robotique | RobotsMali</title>
+<meta name="description" content="Sondage de satisfaction destiné aux parents à l'issue du camp STEM & Robotique de RobotsMali.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F3EE;
+    --surface: #FFFFFF;
+    --primary: #1A3A5C;
+    --accent: #E8512A;
+    --accent2: #F0A500;
+    --text: #1C1C1A;
+    --muted: #6B6860;
+    --border: #DDD9D0;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* Header */
+  .header {
+    background: var(--primary);
+    color: white;
+    padding: 40px 24px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(232,81,42,0.18);
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: rgba(240,165,0,0.12);
+  }
+  .logo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .logo-plate {
+    display: inline-flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 12px;
+    padding: 8px 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  }
+  .logo-plate img {
+    height: 38px;
+    width: auto;
+    display: block;
+  }
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 400;
+    line-height: 1.25;
+    color: white;
+    margin-bottom: 10px;
+    position: relative; z-index: 1;
+  }
+  .header p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+    position: relative; z-index: 1;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(232,81,42,0.2);
+    border: 1px solid rgba(232,81,42,0.4);
+    color: #FFB59A;
+    font-size: 12px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    position: relative; z-index: 1;
+  }
+
+  /* Progress */
+  .progress-bar-wrap { background: var(--border); height: 3px; }
+  .progress-bar-fill {
+    height: 3px; background: var(--accent); width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  /* Container */
+  .container { max-width: 680px; margin: 32px auto 0; padding: 0 16px; }
+
+  /* Sections */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 22px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    width: 28px; height: 28px;
+    background: var(--primary); color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600;
+    flex-shrink: 0;
+  }
+  .section-title { font-size: 15px; font-weight: 600; color: var(--primary); letter-spacing: 0.01em; }
+
+  /* Questions */
+  .question { margin-bottom: 22px; }
+  .question:last-child { margin-bottom: 0; }
+  .q-label { font-size: 14px; color: var(--text); font-weight: 500; margin-bottom: 10px; line-height: 1.5; display: block; }
+  .q-note { font-size: 12px; color: var(--muted); margin-top: 5px; }
+  .req { color: var(--accent); }
+
+  /* Two column grid */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 500px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* Text inputs */
+  input[type=text], input[type=email], select, textarea {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    appearance: none;
+  }
+  input[type=text]:focus, input[type=email]:focus, select:focus, textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(26,58,92,0.08);
+  }
+  textarea { min-height: 90px; resize: vertical; line-height: 1.6; }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6860' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; cursor: pointer; }
+
+  /* Stars */
+  .star-group { display: flex; flex-direction: row-reverse; gap: 4px; }
+  .star-group input { display: none; }
+  .star-group label {
+    font-size: 28px; cursor: pointer; color: var(--border);
+    transition: color 0.1s, transform 0.1s; line-height: 1;
+  }
+  .star-group label:hover,
+  .star-group label:hover ~ label,
+  .star-group input:checked ~ label { color: var(--accent2); }
+  .star-group label:hover { transform: scale(1.15); }
+
+  /* Likert / choice pills */
+  .pill-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill-group input { display: none; }
+  .pill-group label {
+    font-size: 13px; padding: 7px 16px;
+    border: 1px solid var(--border); border-radius: 30px;
+    cursor: pointer; color: var(--muted); background: var(--bg);
+    transition: all 0.15s; user-select: none; font-weight: 400;
+  }
+  .pill-group label:hover { border-color: var(--primary); color: var(--primary); background: #EAF1F8; }
+  .pill-group input:checked + label { background: var(--primary); border-color: var(--primary); color: white; font-weight: 500; }
+
+  /* Submit */
+  .submit-area { text-align: center; margin-top: 28px; }
+  .submit-btn {
+    background: var(--accent); color: white; border: none;
+    padding: 15px 48px; font-size: 16px; font-family: 'DM Sans', sans-serif;
+    font-weight: 600; border-radius: 50px; cursor: pointer;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(232,81,42,0.25);
+  }
+  .submit-btn:hover { background: #C93E1A; box-shadow: 0 6px 28px rgba(232,81,42,0.35); }
+  .submit-btn:active { transform: scale(0.98); }
+  .submit-btn:disabled { opacity: .6; cursor: default; }
+  .confidential-note { font-size: 12px; color: var(--muted); margin-top: 14px; }
+
+  .error-banner {
+    display:flex; gap:10px; align-items:flex-start; text-align:left;
+    background:#FBE9E6; border:1px solid #C0432F; color:#7a2b1d;
+    border-radius:9px; padding:12px 14px; margin-top:16px; font-size:13px;
+  }
+  .error-banner a { color:#C0432F; font-weight:600; }
+
+  /* Success */
+  #success-screen { display: none; text-align: center; padding: 60px 24px; }
+  .success-icon {
+    width: 72px; height: 72px; background: #EAF3DE; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px; font-size: 32px;
+  }
+  #success-screen h2 { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--primary); margin-bottom: 12px; font-weight: 400; }
+  #success-screen p { color: var(--muted); font-size: 15px; line-height: 1.6; max-width: 400px; margin: 0 auto; }
+
+  /* Footer */
+  .footer { text-align: center; padding: 32px 24px 16px; font-size: 12px; color: var(--muted); }
+  .footer a { color: var(--primary); text-decoration: none; }
+
+  @media print {
+    body { background: white; }
+    .header { background: #1A3A5C !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .submit-area, .progress-bar-wrap { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar-fill" id="progressBar"></div>
+</div>
+
+<div class="header">
+  <div class="logo-area">
+    <div class="logo-plate">
+      <img src="data:image/png;base64,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" alt="RobotsMali">
+    </div>
+  </div>
+  <div class="badge">Camp · STEM &amp; Robotique</div>
+  <h1>Formulaire de Satisfaction</h1>
+  <p>Vos retours nous aident à améliorer nos prochains camps. Ce formulaire est anonyme et prend moins de 5 minutes.</p>
+</div>
+
+<form id="surveyForm" action="https://formspree.io/f/VOTRE_ID_FORMULAIRE" method="POST">
+<input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+<input type="hidden" name="_subject" value="Nouveau retour parent — Camp STEM &amp; Robotique RobotsMali">
+
+<div class="container" id="formArea">
+
+  <!-- Section 1 : Infos générales -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">Informations générales</div>
+    </div>
+    <div class="grid-2">
+      <div class="question">
+        <label class="q-label" for="centre_camp">Centre où était l'enfant <span class="req">*</span></label>
+        <select id="centre_camp" name="centre_camp" required>
+          <option value="" disabled selected>— Sélectionner —</option>
+          <option>Baco-Djicoroni</option>
+          <option>Sebenikɔrɔ</option>
+          <option>Niamana</option>
+          <option>Autre</option>
+        </select>
+      </div>
+      <div class="question">
+        <label class="q-label" for="enfant_age">Tranche d'âge de l'enfant</label>
+        <select id="enfant_age" name="enfant_age">
+          <option value="">— Sélectionner —</option>
+          <option>6-8 ans</option>
+          <option>9-11 ans</option>
+          <option>12-14 ans</option>
+          <option>15-17 ans</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:14px;">
+      <div class="question">
+        <label class="q-label" for="lien_avec_enfant">Votre lien avec l'enfant</label>
+        <select id="lien_avec_enfant" name="lien_avec_enfant">
+          <option value="">— Sélectionner —</option>
+          <option>Parent</option>
+          <option>Grand-parent</option>
+          <option>Tuteur / tutrice</option>
+          <option>Autre</option>
+        </select>
+      </div>
+      <div class="question">
+        <label class="q-label" for="parent_profession">Profession</label>
+        <input type="text" id="parent_profession" name="parent_profession" placeholder="ex : Enseignant, Commerçant, Ingénieur…">
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2 : Appréciation globale -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">Appréciation globale</div>
+    </div>
+    <div class="question">
+      <label class="q-label">Note globale du camp</label>
+      <div class="star-group">
+        <input type="radio" name="satisfaction_globale" id="sg5" value="5"><label for="sg5">★</label>
+        <input type="radio" name="satisfaction_globale" id="sg4" value="4"><label for="sg4">★</label>
+        <input type="radio" name="satisfaction_globale" id="sg3" value="3"><label for="sg3">★</label>
+        <input type="radio" name="satisfaction_globale" id="sg2" value="2"><label for="sg2">★</label>
+        <input type="radio" name="satisfaction_globale" id="sg1" value="1"><label for="sg1">★</label>
+      </div>
+      <p class="q-note">1 étoile = Insuffisant &nbsp;·&nbsp; 5 étoiles = Excellent</p>
+    </div>
+    <div class="question">
+      <label class="q-label">Le camp a répondu aux attentes de votre enfant</label>
+      <div class="pill-group">
+        <input type="radio" name="attentes_repondues" id="ar1" value="1"><label for="ar1">Pas du tout</label>
+        <input type="radio" name="attentes_repondues" id="ar2" value="2"><label for="ar2">Peu</label>
+        <input type="radio" name="attentes_repondues" id="ar3" value="3"><label for="ar3">Partiellement</label>
+        <input type="radio" name="attentes_repondues" id="ar4" value="4"><label for="ar4">Largement</label>
+        <input type="radio" name="attentes_repondues" id="ar5" value="5"><label for="ar5">Totalement</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3 : Contenu pédagogique -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">Contenu pédagogique STEM &amp; Robotique</div>
+    </div>
+    <div class="question">
+      <label class="q-label">Clarté et qualité des activités proposées</label>
+      <div class="pill-group">
+        <input type="radio" name="clarte_contenu" id="cc1" value="1"><label for="cc1">Insuffisant</label>
+        <input type="radio" name="clarte_contenu" id="cc2" value="2"><label for="cc2">Passable</label>
+        <input type="radio" name="clarte_contenu" id="cc3" value="3"><label for="cc3">Bien</label>
+        <input type="radio" name="clarte_contenu" id="cc4" value="4"><label for="cc4">Très bien</label>
+        <input type="radio" name="clarte_contenu" id="cc5" value="5"><label for="cc5">Excellent</label>
+      </div>
+    </div>
+    <div class="question">
+      <label class="q-label">Pertinence des activités par rapport à l'âge de l'enfant</label>
+      <div class="pill-group">
+        <input type="radio" name="pertinence_activites" id="pa1" value="1"><label for="pa1">Insuffisant</label>
+        <input type="radio" name="pertinence_activites" id="pa2" value="2"><label for="pa2">Passable</label>
+        <input type="radio" name="pertinence_activites" id="pa3" value="3"><label for="pa3">Bien</label>
+        <input type="radio" name="pertinence_activites" id="pa4" value="4"><label for="pa4">Très bien</label>
+        <input type="radio" name="pertinence_activites" id="pa5" value="5"><label for="pa5">Excellent</label>
+      </div>
+    </div>
+    <div class="question">
+      <label class="q-label">Équilibre entre explications et ateliers pratiques de robotique</label>
+      <div class="pill-group">
+        <input type="radio" name="equilibre_pratique" id="eq1" value="1"><label for="eq1">Trop théorique</label>
+        <input type="radio" name="equilibre_pratique" id="eq2" value="2"><label for="eq2">Plutôt théorique</label>
+        <input type="radio" name="equilibre_pratique" id="eq3" value="3"><label for="eq3">Équilibré</label>
+        <input type="radio" name="equilibre_pratique" id="eq4" value="4"><label for="eq4">Plutôt pratique</label>
+        <input type="radio" name="equilibre_pratique" id="eq5" value="5"><label for="eq5">Très pratique</label>
+      </div>
+    </div>
+    <div class="question">
+      <label class="q-label">Votre enfant réutilise les compétences acquises (maison, école…)</label>
+      <div class="pill-group">
+        <input type="radio" name="application_competences" id="app1" value="1"><label for="app1">Pas du tout</label>
+        <input type="radio" name="application_competences" id="app2" value="2"><label for="app2">Peu</label>
+        <input type="radio" name="application_competences" id="app3" value="3"><label for="app3">Partiellement</label>
+        <input type="radio" name="application_competences" id="app4" value="4"><label for="app4">Largement</label>
+        <input type="radio" name="application_competences" id="app5" value="5"><label for="app5">Totalement</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4 : Encadrement et animation -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">Encadrement et animation</div>
+    </div>
+    <div class="question">
+      <label class="q-label">Compétence et pédagogie des animateurs</label>
+      <div class="pill-group">
+        <input type="radio" name="competence_animateurs" id="xp1" value="1"><label for="xp1">Insuffisant</label>
+        <input type="radio" name="competence_animateurs" id="xp2" value="2"><label for="xp2">Passable</label>
+        <input type="radio" name="competence_animateurs" id="xp3" value="3"><label for="xp3">Bien</label>
+        <input type="radio" name="competence_animateurs" id="xp4" value="4"><label for="xp4">Très bien</label>
+        <input type="radio" name="competence_animateurs" id="xp5" value="5"><label for="xp5">Excellent</label>
+      </div>
+    </div>
+    <div class="question">
+      <label class="q-label">Qualité de l'accompagnement et sentiment de sécurité de l'enfant</label>
+      <div class="pill-group">
+        <input type="radio" name="qualite_accompagnement" id="ac1" value="1"><label for="ac1">Insuffisant</label>
+        <input type="radio" name="qualite_accompagnement" id="ac2" value="2"><label for="ac2">Passable</label>
+        <input type="radio" name="qualite_accompagnement" id="ac3" value="3"><label for="ac3">Bien</label>
+        <input type="radio" name="qualite_accompagnement" id="ac4" value="4"><label for="ac4">Très bien</label>
+        <input type="radio" name="qualite_accompagnement" id="ac5" value="5"><label for="ac5">Excellent</label>
+      </div>
+    </div>
+    <div class="question">
+      <label class="q-label">Dynamisme et enthousiasme des activités</label>
+      <div class="pill-group">
+        <input type="radio" name="dynamisme_activites" id="dy1" value="1"><label for="dy1">Insuffisant</label>
+        <input type="radio" name="dynamisme_activites" id="dy2" value="2"><label for="dy2">Passable</label>
+        <input type="radio" name="dynamisme_activites" id="dy3" value="3"><label for="dy3">Bien</label>
+        <input type="radio" name="dynamisme_activites" id="dy4" value="4"><label for="dy4">Très bien</label>
+        <input type="radio" name="dynamisme_activites" id="dy5" value="5"><label for="dy5">Excellent</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5 : Organisation et logistique -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">Organisation et logistique</div>
+    </div>
+    <div class="question">
+      <label class="q-label">Conditions matérielles (salle, matériel de robotique, espace extérieur)</label>
+      <div class="pill-group">
+        <input type="radio" name="conditions_materielles" id="mt1" value="1"><label for="mt1">Insuffisant</label>
+        <input type="radio" name="conditions_materielles" id="mt2" value="2"><label for="mt2">Passable</label>
+        <input type="radio" name="conditions_materielles" id="mt3" value="3"><label for="mt3">Bien</label>
+        <input type="radio" name="conditions_materielles" id="mt4" value="4"><label for="mt4">Très bien</label>
+        <input type="radio" name="conditions_materielles" id="mt5" value="5"><label for="mt5">Excellent</label>
+      </div>
+    </div>
+    <div class="question">
+      <label class="q-label">Durée du camp</label>
+      <div class="pill-group">
+        <input type="radio" name="duree_camp" id="du1" value="1"><label for="du1">Trop courte</label>
+        <input type="radio" name="duree_camp" id="du2" value="2"><label for="du2">Un peu courte</label>
+        <input type="radio" name="duree_camp" id="du3" value="3"><label for="du3">Adaptée</label>
+        <input type="radio" name="duree_camp" id="du4" value="4"><label for="du4">Un peu longue</label>
+        <input type="radio" name="duree_camp" id="du5" value="5"><label for="du5">Trop longue</label>
+      </div>
+    </div>
+    <div class="question">
+      <label class="q-label">Horaires du camp adaptés à votre organisation</label>
+      <div class="pill-group">
+        <input type="radio" name="horaires_adaptes" id="ha1" value="1"><label for="ha1">Pas du tout</label>
+        <input type="radio" name="horaires_adaptes" id="ha2" value="2"><label for="ha2">Peu adaptés</label>
+        <input type="radio" name="horaires_adaptes" id="ha3" value="3"><label for="ha3">Adaptés</label>
+        <input type="radio" name="horaires_adaptes" id="ha4" value="4"><label for="ha4">Bien adaptés</label>
+        <input type="radio" name="horaires_adaptes" id="ha5" value="5"><label for="ha5">Totalement</label>
+      </div>
+    </div>
+    <div class="question">
+      <label class="q-label">Rapport qualité-prix du camp</label>
+      <div class="pill-group">
+        <input type="radio" name="rapport_qualite_prix" id="qp1" value="1"><label for="qp1">Insuffisant</label>
+        <input type="radio" name="rapport_qualite_prix" id="qp2" value="2"><label for="qp2">Passable</label>
+        <input type="radio" name="rapport_qualite_prix" id="qp3" value="3"><label for="qp3">Bien</label>
+        <input type="radio" name="rapport_qualite_prix" id="qp4" value="4"><label for="qp4">Très bien</label>
+        <input type="radio" name="rapport_qualite_prix" id="qp5" value="5"><label for="qp5">Excellent</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6 : Impact et perspectives -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div class="section-title">Impact et perspectives</div>
+    </div>
+    <div class="question">
+      <label class="q-label">Le camp a renforcé la curiosité de l'enfant pour les sciences et la technologie</label>
+      <div class="pill-group">
+        <input type="radio" name="interet_sciences" id="cu1" value="1"><label for="cu1">Pas du tout</label>
+        <input type="radio" name="interet_sciences" id="cu2" value="2"><label for="cu2">Peu</label>
+        <input type="radio" name="interet_sciences" id="cu3" value="3"><label for="cu3">Partiellement</label>
+        <input type="radio" name="interet_sciences" id="cu4" value="4"><label for="cu4">Largement</label>
+        <input type="radio" name="interet_sciences" id="cu5" value="5"><label for="cu5">Totalement</label>
+      </div>
+    </div>
+    <div class="question">
+      <label class="q-label">Recommanderiez-vous ce camp à d'autres parents ?</label>
+      <div class="pill-group">
+        <input type="radio" name="recommandation" id="r1" value="1"><label for="r1">Certainement non</label>
+        <input type="radio" name="recommandation" id="r2" value="2"><label for="r2">Probablement non</label>
+        <input type="radio" name="recommandation" id="r3" value="3"><label for="r3">Peut-être</label>
+        <input type="radio" name="recommandation" id="r4" value="4"><label for="r4">Probablement oui</label>
+        <input type="radio" name="recommandation" id="r5" value="5"><label for="r5">Certainement oui</label>
+      </div>
+    </div>
+    <div class="question">
+      <label class="q-label">Envisagez-vous d'inscrire votre enfant à un prochain camp STEM ?</label>
+      <div class="pill-group">
+        <input type="radio" name="reinscription" id="it1" value="oui_certain"><label for="it1">Oui, certainement</label>
+        <input type="radio" name="reinscription" id="it2" value="oui_peut_etre"><label for="it2">Oui, peut-être</label>
+        <input type="radio" name="reinscription" id="it3" value="incertain"><label for="it3">Incertain(e)</label>
+        <input type="radio" name="reinscription" id="it4" value="non"><label for="it4">Non</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 7 : Commentaires -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <div class="section-title">Commentaires libres</div>
+    </div>
+    <div class="question">
+      <label class="q-label" for="point_positif">Ce que votre enfant a le plus apprécié</label>
+      <textarea id="point_positif" name="point_positif" placeholder="Partagez ce qui l'a le plus marqué…"></textarea>
+    </div>
+    <div class="question">
+      <label class="q-label" for="suggestions">Ce qui pourrait être amélioré</label>
+      <textarea id="suggestions" name="suggestions" placeholder="Vos suggestions pour la prochaine session…"></textarea>
+    </div>
+    <div class="question">
+      <label class="q-label" for="futurs_themes">Thèmes ou activités que vous souhaiteriez voir lors d'une prochaine session</label>
+      <textarea id="futurs_themes" name="futurs_themes" placeholder="ex : intelligence artificielle, drones, jeux vidéo…"></textarea>
+    </div>
+    <div class="question">
+      <label class="q-label" for="commentaire_libre">Commentaire général</label>
+      <textarea id="commentaire_libre" name="commentaire_libre" placeholder="Tout autre retour que vous souhaitez partager avec l'équipe RobotsMali…"></textarea>
+    </div>
+  </div>
+
+  <div class="submit-area">
+    <button type="submit" class="submit-btn" id="submitBtn">Envoyer mes réponses</button>
+    <p class="confidential-note">Vos réponses sont traitées de façon confidentielle par l'équipe RobotsMali</p>
+  </div>
+
+  <div class="error-banner" id="errorBanner" hidden>
+    <span>⚠</span>
+    <span>Une erreur est survenue lors de l'envoi. Réessayez, ou écrivez-nous directement à <a href="mailto:info@robotsmali.org">info@robotsmali.org</a>.</span>
+  </div>
+
+</div>
+
+<div id="success-screen">
+  <div class="success-icon">✓</div>
+  <h2>Merci pour vos retours !</h2>
+  <p>Vos réponses ont bien été enregistrées. L'équipe RobotsMali prend en compte chaque avis pour améliorer la qualité de ses prochains camps.</p>
+  <p style="margin-top:16px; font-size:13px; color:#999;">— RobotsMali, Bko-Mali (Sebenikɔrɔ)</p>
+</div>
+
+</form>
+
+<div class="footer">
+  <p><strong>RobotsMali</strong> (Robotique et Intelligence Artificielle)</p>
+  <p style="margin-top:4px;">Bko-Mali (Sebenikɔrɔ)</p>
+  <p style="margin-top:4px;">Site Web : <a href="https://www.robotsmali.org" target="_blank">www.robotsmali.org</a></p>
+  <p style="margin-top:4px;">Tel : +223 74 48 33 76 / 73 65 55 01</p>
+</div>
+
+<script>
+(function(){
+  const form = document.getElementById('surveyForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const errorBanner = document.getElementById('errorBanner');
+  const formArea = document.getElementById('formArea');
+  const successScreen = document.getElementById('success-screen');
+  const progressBar = document.getElementById('progressBar');
+
+  function updateProgress(){
+    const radios = form.querySelectorAll('input[type=radio]');
+    const groups = new Set([...radios].map(r => r.name));
+    let answered = 0;
+    groups.forEach(name => {
+      if (form.querySelector('input[name="' + name + '"]:checked')) answered++;
+    });
+    const pct = groups.size ? Math.round((answered / groups.size) * 100) : 0;
+    progressBar.style.width = pct + '%';
+  }
+  form.querySelectorAll('input[type=radio]').forEach(r => r.addEventListener('change', updateProgress));
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    if (!form.checkValidity()){
+      form.reportValidity();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Envoi en cours…';
+    errorBanner.hidden = true;
+
+    const endpoint = form.getAttribute('action');
+    const data = new FormData(form);
+
+    fetch(endpoint, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(response => {
+      if (response.ok){
+        formArea.style.display = 'none';
+        successScreen.style.display = 'block';
+        progressBar.style.width = '100%';
+      } else {
+        throw new Error('Réponse serveur invalide');
+      }
+    }).catch(() => {
+      errorBanner.hidden = false;
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Envoyer mes réponses';
+    });
+  });
+})();
+</script>
+</body>
+</html>
