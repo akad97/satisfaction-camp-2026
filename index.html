@@ -210,13 +210,6 @@
   .submit-btn:disabled { opacity: .6; cursor: default; }
   .confidential-note { font-size: 12px; color: var(--muted); margin-top: 14px; }
 
-  .error-banner {
-    display:flex; gap:10px; align-items:flex-start; text-align:left;
-    background:#FBE9E6; border:1px solid #C0432F; color:#7a2b1d;
-    border-radius:9px; padding:12px 14px; margin-top:16px; font-size:13px;
-  }
-  .error-banner a { color:#C0432F; font-weight:600; }
-
   /* Success */
   #success-screen { display: none; text-align: center; padding: 60px 24px; }
   .success-icon {
@@ -536,11 +529,6 @@
     <p class="confidential-note">Vos réponses sont traitées de façon confidentielle par l'équipe RobotsMali</p>
   </div>
 
-  <div class="error-banner" id="errorBanner" hidden>
-    <span>⚠</span>
-    <span>Une erreur est survenue lors de l'envoi. Réessayez, ou écrivez-nous directement à <a href="mailto:info@robotsmali.org">info@robotsmali.org</a>.</span>
-  </div>
-
 </div>
 
 <div id="success-screen">
@@ -563,7 +551,6 @@
 (function(){
   const form = document.getElementById('surveyForm');
   const submitBtn = document.getElementById('submitBtn');
-  const errorBanner = document.getElementById('errorBanner');
   const formArea = document.getElementById('formArea');
   const successScreen = document.getElementById('success-screen');
   const progressBar = document.getElementById('progressBar');
@@ -590,7 +577,6 @@
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Envoi en cours…';
-    errorBanner.hidden = true;
 
     const endpoint = form.getAttribute('action');
     const data = new FormData(form);
@@ -608,7 +594,6 @@
         throw new Error('Réponse serveur invalide');
       }
     }).catch(() => {
-      errorBanner.hidden = false;
       submitBtn.disabled = false;
       submitBtn.textContent = 'Envoyer mes réponses';
     });
